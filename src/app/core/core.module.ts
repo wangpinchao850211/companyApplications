@@ -1,5 +1,6 @@
 import { NgModule, SkipSelf, Optional } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
+import {MatToolbarModule} from '@angular/material/toolbar';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -11,7 +12,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     SidebarComponent,
   ],
   imports: [
-    SharedModule
+    SharedModule,
+    MatToolbarModule
   ],
   exports: [
     SharedModule,
