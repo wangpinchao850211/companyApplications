@@ -1,0 +1,40 @@
+<!-- <form class="form" [formGroup]="form" (ngSubmit)="onSubmit(form, $event)"> -->
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title> 登录：</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field class="full-width" color="accent" floatLabel="never" hintLabel="...@.0~9">
+          <!-- floatLabel有三种值，float，always，never -->
+          <!-- hintLabel="输入框提示" -->
+          <!-- matPrefix前缀 matSuffix后缀 -->
+          <span matPrefix>wpc&nbsp;</span>
+          <input matInput type="text" placeholder="您的Email" >
+          <span matSuffix>@163.com</span>
+          <mat-hint align="end">必填项,与error对应</mat-hint>
+          <mat-error>用户名是必填项哦</mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput type="password" placeholder="您的密码" >
+          <mat-error>密码不正确哦</mat-error>
+        </mat-form-field>
+        <!-- <button mat-raised-button type="submit" [disabled]="!form.valid">登录</button> -->
+      </mat-card-content>
+      <mat-card-actions class="text-right">
+        <!-- <p>还没有账户？ <a routerLink="/register">注册</a></p>
+        <p>忘记 <a routerLink="/forgot">密码？</a></p> -->
+      </mat-card-actions>
+    </mat-card>
+    <!-- <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title> 佳句</mat-card-title>
+        <mat-card-subtitle>
+          {{(quote$ | async)?.cn}}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image [src]="(quote$ | async)?.pic">
+      <mat-card-content>
+        <p> {{(quote$ | async)?.en}}</p>
+      </mat-card-content>
+    </mat-card> -->
+  <!-- </form> -->

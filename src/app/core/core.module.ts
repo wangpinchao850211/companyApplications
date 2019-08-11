@@ -1,6 +1,6 @@
 import { NgModule, SkipSelf, Optional } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '../shared/shared.module';
-import {MatToolbarModule} from '@angular/material/toolbar';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -12,8 +12,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     SidebarComponent,
   ],
   imports: [
+    HttpClientModule,
     SharedModule,
-    MatToolbarModule
   ],
   exports: [
     SharedModule,

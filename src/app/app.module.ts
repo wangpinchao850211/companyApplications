@@ -3,9 +3,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgModule } from '@angular/core';
 import { coreModule } from './core/core.module';
-
-// material module
-import {MatSidenavModule} from '@angular/material/sidenav';
+import { SharedModule } from './shared/shared.module';
+import { LoginModule } from './login/login.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,7 +18,8 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
     coreModule, // 引入全局依赖
     BrowserAnimationsModule,
-    MatSidenavModule
+    SharedModule,
+    LoginModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
