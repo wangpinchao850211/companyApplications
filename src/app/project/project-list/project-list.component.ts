@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { NewProjectComponent } from '../new-project/new-project.component';
+import { MatDialog, MatDialogRef, MatDialogConfig} from '@angular/material';
 
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.scss']
+  styleUrls: ['./project-list.component.scss'],
 })
 export class ProjectListComponent implements OnInit {
 
@@ -19,10 +21,18 @@ export class ProjectListComponent implements OnInit {
       coverImg: "assets/img/covers/1.jpg"
     }
   ]
-  constructor() { }
+  constructor(
+    private dialog: MatDialog,
+  ) { }
 
   ngOnInit() {
   }
-  openNewProjectDialog() {}
-
+  openNewProjectDialog() {
+    const dialogRef = this.dialog.open(NewProjectComponent, {data: 'wpc'});
+    dialogRef.afterClosed().subscribe(val => {
+      if (val) {
+        console.log(val);
+      }
+    });
+  }
 }

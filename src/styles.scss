@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 // @import "~@angular/material/prebuilt-themes/indigo-pink.css"; // 引入material主题
-// @import "../node_modules/material-design-icons/iconfont/material-icons.css";
+@import "../node_modules/material-design-icons/iconfont/material-icons.css";
 @import "./theme.scss"; // 引入自定义主题
 
 html, body, app-root, mat-sidenav-container, .site{
@@ -9,7 +9,28 @@ html, body, app-root, mat-sidenav-container, .site{
   margin: 0;
   padding: 0;
 }
+.site {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  -ms-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 // 使文字居中，flex的方法
 .fill-remaining-space{ // 填充剩余空间
   flex: 1 1 auto;
+}
+.full-width{
+  width: 100%;
 }

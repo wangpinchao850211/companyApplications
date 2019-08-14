@@ -1,3 +1,17 @@
-<p>
-  new-project works!
-</p>
+<form class="form" (ngSubmit)="onSubmit(form, $event)">
+  <h3 mat-dialog-title>{{dialogTitle}}</h3>
+  <div mat-dialog-content>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="项目名称">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="项目简介（选填）">
+    </mat-form-field>
+    <!-- <app-image-list-select [cols]="6" [items]="thumbnails$ | async" formControlName="coverImg">
+    </app-image-list-select> -->
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" type="submit">保存</button>
+    <button mat-dialog-close mat-raised-button type="button" (click)="close()">关闭</button>
+  </div>
+</form>

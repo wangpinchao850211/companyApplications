@@ -6,7 +6,7 @@
 @include mat-core();
 
 // 使用在 palette.scss 中定义的 Material Design 调色板来定义我们自有主题的调色板
-// 对于每个调色板，你可以指定默认、轻柔或更重的色调
+// 对于每个调色板，你可以指定默认、轻柔或更重的色调(https://material.io/archive/guidelines/style/color.html#color-color-tool)
 $my-app-primary: mat-palette($mat-indigo);
 $my-app-accent: mat-palette($mat-pink, A200, A100, A400);
 
@@ -64,6 +64,7 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 // export class MyAppModule {
 //   constructor(overlayContainer: OverlayContainer) {
 //     overlayContainer.themeClass = 'my-dark-theme';
+//     overlayContainer.getContainerElement().classList.add('my-dark-theme');
 //   }
 // }
 
@@ -76,3 +77,9 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 // @include mat-typography(
 //
 // );
+
+// 更改加载css文件，基本思路
+// <link id="themeAsset" rel="stylesheet" href="/path/to/my/theme-name.css">
+// function changeTheme(themeName) {
+//   document.getElementById('themeAsset').href = `/path/to/my/${themeName}.css`;
+// }
