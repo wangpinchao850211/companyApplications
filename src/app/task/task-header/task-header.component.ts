@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-task-header',
@@ -7,9 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TaskHeaderComponent implements OnInit {
 
+  @Input() header = '';
   constructor() { }
 
   ngOnInit() {
+    console.log(this.header);
   }
-
+  addNewTask(e) {
+    console.log(e);
+  }
+  onChangeListName(e) {
+    console.log(e);
+  }
+  onMoveAllTasks(e) {
+    console.log(e);
+  }
+  onDeleteList(e) {
+    console.log(e);
+  }
 }
