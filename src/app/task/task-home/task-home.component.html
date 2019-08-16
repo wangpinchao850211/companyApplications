@@ -2,8 +2,11 @@
   <app-task-list
     class="list-container"
     *ngFor="let taskList of lists">
-    <app-task-header [header]="taskList.name" (newTask)="handleAddTask()">
-      
+    <app-task-header
+    [header]="taskList.name"
+    (newTask)="handleAddTask()"
+    (moveAllTasks)="handleMoveList()">
+
     </app-task-header>
     <app-task-item
       *ngFor="let task of taskList.tasks"

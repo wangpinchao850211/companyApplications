@@ -8,8 +8,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class TaskHeaderComponent implements OnInit {
 
   @Input() header;
-  @Output() newTask = new EventEmitter();
-  
+  @Output() newTask = new EventEmitter<void>();
+  @Output() moveAllTasks = new EventEmitter<void>();
+
   constructor() { }
 
   ngOnInit() {
@@ -21,8 +22,8 @@ export class TaskHeaderComponent implements OnInit {
   onChangeListName(e) {
     console.log(e);
   }
-  onMoveAllTasks(e) {
-    console.log(e);
+  onMoveAllTasks(ev: Event) {
+    this.moveAllTasks.emit();
   }
   onDeleteList(e) {
     console.log(e);

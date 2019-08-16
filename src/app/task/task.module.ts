@@ -6,14 +6,16 @@ import { TaskListComponent } from './task-list/task-list.component';
 import { TaskItemComponent } from './task-item/task-item.component';
 import { TaskHeaderComponent } from './task-header/task-header.component';
 import { NewTaskComponent } from './new-task/new-task.component';
+import { CopyTaskComponent } from './copy-task/copy-task.component';
 
 @NgModule({
   declarations: [
-    TaskHomeComponent, 
-    TaskListComponent, 
-    TaskItemComponent, 
-    TaskHeaderComponent, 
-    NewTaskComponent
+    TaskHomeComponent,
+    TaskListComponent,
+    TaskItemComponent,
+    TaskHeaderComponent,
+    NewTaskComponent,
+    CopyTaskComponent
   ],
   imports: [
     SharedModule,
@@ -21,6 +23,7 @@ import { NewTaskComponent } from './new-task/new-task.component';
   ],
   entryComponents: [ // 弹出层（动态组件）必须要从这个导入
     NewTaskComponent,
+    CopyTaskComponent
   ]
 })
 export class TaskModule { }
