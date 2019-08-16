@@ -8,9 +8,11 @@ import { Component, OnInit, Input } from '@angular/core';
 export class TaskItemComponent implements OnInit {
 
   @Input() item;
+  @Input() avatar:string;
   constructor() { }
 
   ngOnInit() {
+    this.avatar = (this.item.owner) ? this.item.owner.avatar : 'unassigned';
   }
 
 }

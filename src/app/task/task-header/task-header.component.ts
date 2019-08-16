@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TaskHeaderComponent implements OnInit {
 
-  @Input() header = '';
+  @Input() header;
   constructor() { }
 
   ngOnInit() {

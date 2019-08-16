@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 // @import "~@angular/material/prebuilt-themes/indigo-pink.css"; // 引入material主题
-// @import "../node_modules/material-design-icons/iconfont/material-icons.css";
+@import "../node_modules/material-design-icons/iconfont/material-icons.css";
 @import "./theme.scss"; // 引入自定义主题
 
 html, body, app-root, mat-sidenav-container, .site{

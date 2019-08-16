@@ -9,6 +9,10 @@
   flex: 0 0 360px;
   overflow-y: auto;
   overflow-x: hidden;
+  border-left: 1px solid #bfc0c35c;
+  border-right: 1px solid #bfc0c35c;
+  margin: 0 10px;
+  min-height: 100%;
 }
 .task-lists {
   min-width: 100%;
