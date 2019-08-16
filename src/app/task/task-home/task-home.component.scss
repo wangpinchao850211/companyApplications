@@ -9,10 +9,29 @@
   flex: 0 0 360px;
   overflow-y: auto;
   overflow-x: hidden;
-  border-left: 1px solid #bfc0c35c;
-  border-right: 1px solid #bfc0c35c;
-  margin: 0 10px;
+  padding-left: 10px;
   min-height: 100%;
+  position: relative;
+}
+.list-container::before{
+  content: '';
+  width: 10px;
+  height: 100%;
+  max-height: 100%;
+  background-color: rgba(190, 202, 177, .2);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.list-container::after{
+  content: '';
+  width: 10px;
+  height: 100%;
+  max-height: 100%;
+  background-color: rgba(190, 202, 177, .2);
+  position: absolute;
+  top: 0;
+  left: 370px;
 }
 .task-lists {
   min-width: 100%;
@@ -24,6 +43,7 @@
   justify-content: flex-start;
   align-content: flex-start;
   overflow-x: scroll;
+  position: relative;
 }
 .fab-button {
   position: fixed;
