@@ -5,12 +5,15 @@
     <app-task-header
     [header]="taskList.name"
     (newTask)="handleAddTask()"
-    (moveAllTasks)="handleMoveList()">
+    (moveAllTasks)="handleMoveList()"
+    (deleteList)="handleDelList(taskList)"
+    (changeListName)="handleRenameList(taskList)">
 
     </app-task-header>
     <app-task-item
       *ngFor="let task of taskList.tasks"
-      [item]="task">
+      [item]="task"
+      (taskClick)="handleUpdateTask(task)">
     </app-task-item>
   </app-task-list>
 </div>

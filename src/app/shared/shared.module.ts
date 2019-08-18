@@ -25,6 +25,7 @@ import {
   MatTooltipModule,
   MatSlideToggleModule,
 } from '@angular/material';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 const materialArr = [
   MatToolbarModule,
   MatSidenavModule,
@@ -52,7 +53,8 @@ const materialArr = [
 
 @NgModule({
   declarations: [
-  ],
+    ConfirmDialogComponent]
+  ,
   imports: [
     CommonModule,
     ...materialArr
@@ -60,6 +62,9 @@ const materialArr = [
   exports: [
     CommonModule,
     ...materialArr
+  ],
+  entryComponents: [
+    ConfirmDialogComponent,
   ]
 })
 export class SharedModule {

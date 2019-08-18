@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, Inject } from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 @Component({
   selector: 'app-new-task',
   templateUrl: './new-task.component.html',
@@ -22,9 +22,13 @@ export class NewTaskComponent implements OnInit {
       value: 1
     },
   ];
-  constructor() { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data: any,
+  ) { }
 
   ngOnInit() {
+    this.dialogTitle = this.data.title;
+    console.log(JSON.stringify(this.data.title));
   }
 
 }

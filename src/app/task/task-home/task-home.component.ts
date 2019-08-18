@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig} from '@angular/material';
 import { NewTaskComponent } from '../new-task/new-task.component';
+import { NewTaskListComponent } from '../new-task-list/new-task-list.component';
 import { CopyTaskComponent } from '../copy-task/copy-task.component';
+import {ConfirmDialogComponent} from '../../shared/confirm-dialog/confirm-dialog.component';
 @Component({
   selector: 'app-task-home',
   templateUrl: './task-home.component.html',
@@ -79,9 +81,34 @@ export class TaskHomeComponent implements OnInit {
   ngOnInit() {
   }
   handleAddTask() {
-    const dialogRef = this.dialog.open(NewTaskComponent);
+    const dialogRef = this.dialog.open(NewTaskComponent, { data: { title: '新建任务'}});
   }
   handleMoveList() {
     const dialogRef = this.dialog.open(CopyTaskComponent, {data: { lists: this.lists }});
+  }
+  handleUpdateTask(task) {
+    const dialogRef = this.dialog.open(NewTaskComponent, { data: { title: '修改任务', task: task }});
+  }
+  handleNewTaskList() {
+    const dialogRef = this.dialog.open(NewTaskComponent, { data: { title: '添加任务'}});
+  }
+  handleDelList(list) {
+    const confirm = {
+      title: '删除项目：',
+      content: '确认要删除该任务列表？',
+      confirmAction: '确认删除'
+    };
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {data: {dialog: confirm}});
+
+    // 使用 take(1) 来自动销毁订阅，因为 take(1) 意味着接收到 1 个数据后就完成了
+    dialogRef.afterClosed().subscribe(val => {
+      console.log(val);
+    });
+  }
+  handleRenameList(list) {
+    const dialogRef = this.dialog.open(NewTaskListComponent, { data: { title: '修改名称' }});
+    dialogRef.afterClosed().subscribe(name => {
+      console.log(name);
+    });
   }
 }

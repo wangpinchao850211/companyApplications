@@ -17,7 +17,7 @@ export class NewProjectComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dialogTitle = '创建项目：';
+    this.dialogTitle = this.data.title;
   }
 
   onSubmit(f, e) { // 提交后关闭，把值传回去
