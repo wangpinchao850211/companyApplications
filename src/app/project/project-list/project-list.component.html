@@ -1,5 +1,6 @@
 
-<div class="container">
+<div class="container" [@listAnim]="projects.length">
+  <!-- 为了加动画，加的外层wrapper -->
   <app-project-item
     class="card"
     *ngFor="let project of projects"
@@ -9,6 +10,7 @@
     (launchDeleteDailog)="openDeleteDialog(project)">
   </app-project-item>
 </div>
+
 <button mat-fab (click)="openNewProjectDialog()" type="button" class="fab-button">
   <mat-icon>add</mat-icon>
 </button>

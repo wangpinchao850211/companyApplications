@@ -2,7 +2,7 @@
 <div>
   <mat-nav-list>
     <h3 mat-subheader>项目</h3>
-    <mat-list-item>
+    <mat-list-item (click)="handleClicked($event, '/project')">
       <mat-icon mat-list-icon svgIcon="projects"></mat-icon>
       <span mat-line>项目首页</span>
       <span mat-line mat-subheader> 查看您参与的全部项目 </span>
@@ -16,7 +16,7 @@
     </mat-list-item> -->
     <mat-divider></mat-divider>
     <h3 mat-subheader>日历</h3>
-    <mat-list-item>
+    <mat-list-item (click)="handleClicked($event, '/tasklists')">
       <mat-icon mat-list-icon svgIcon="month"></mat-icon>
       <span mat-line>月视图</span>
       <span mat-line mat-subheader> 按月方式查看事件 </span>

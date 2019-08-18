@@ -11,6 +11,7 @@ import { TaskModule } from './task/task.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+
 @NgModule({
   declarations: [
     AppComponent
@@ -19,11 +20,11 @@ import { AppComponent } from './app.component';
     BrowserModule,
     AppRoutingModule,
     coreModule, // 引入全局依赖
-    BrowserAnimationsModule,
     SharedModule,
     LoginModule,
     ProjectModule,
     TaskModule,
+    BrowserAnimationsModule,// 引入动画,放入最后，避免出现异常
   ],
   providers: [],
   bootstrap: [AppComponent]
