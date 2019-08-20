@@ -1,5 +1,6 @@
 import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DirectivesModule } from '../directives/directives.module';
 // material module
 import {
   MatToolbarModule,
@@ -27,6 +28,7 @@ import {
 } from '@angular/material';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 const materialArr = [
+  DirectivesModule,
   MatToolbarModule,
   MatSidenavModule,
   MatAutocompleteModule,

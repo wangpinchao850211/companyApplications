@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, HostBinding } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig} from '@angular/material';
 import { NewTaskComponent } from '../new-task/new-task.component';
 import { NewTaskListComponent } from '../new-task-list/new-task-list.component';
@@ -9,7 +9,8 @@ import { slideToRight } from '../../anim/router.anim';
   selector: 'app-task-home',
   templateUrl: './task-home.component.html',
   styleUrls: ['./task-home.component.scss'],
-  animations: [slideToRight]
+  animations: [slideToRight],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskHomeComponent implements OnInit {
 
@@ -79,6 +80,7 @@ export class TaskHomeComponent implements OnInit {
   ]
   constructor(
     private dialog: MatDialog,
+    private cd: ChangeDetectorRef, // 可以手动检测变更位置
   ) { }
 
   ngOnInit() {
@@ -106,12 +108,14 @@ export class TaskHomeComponent implements OnInit {
     // 使用 take(1) 来自动销毁订阅，因为 take(1) 意味着接收到 1 个数据后就完成了
     dialogRef.afterClosed().subscribe(val => {
       console.log(val);
+      this.cd.markForCheck(); // 关闭弹层，让其进行检测这个位置
     });
   }
   handleRenameList(list) {
     const dialogRef = this.dialog.open(NewTaskListComponent, { data: { title: '修改名称' }});
     dialogRef.afterClosed().subscribe(name => {
       console.log(name);
+      this.cd.markForCheck();
     });
   }
 }

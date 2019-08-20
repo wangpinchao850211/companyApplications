@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, HostBinding } from '@angular/core';
 import { NewProjectComponent } from '../new-project/new-project.component';
 import { MatDialog, MatDialogRef, MatDialogConfig} from '@angular/material';
 import { InviteComponent } from '../invite/invite.component';
@@ -9,7 +9,8 @@ import { listAnimation } from '../../anim/list.anim';
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.scss'],
-  animations: [slideToRight, listAnimation]
+  animations: [slideToRight, listAnimation],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectListComponent implements OnInit {
 
@@ -30,6 +31,7 @@ export class ProjectListComponent implements OnInit {
   ]
   constructor(
     private dialog: MatDialog,
+    private cd: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -67,6 +69,7 @@ export class ProjectListComponent implements OnInit {
       // console.log(val);
       console.log(project.id);
       this.projects = [...this.projects.filter(p => project.id !== p.id)];
+      this.cd.markForCheck(); // 关闭弹层，让其进行检测这个位置
     });
 
   }
