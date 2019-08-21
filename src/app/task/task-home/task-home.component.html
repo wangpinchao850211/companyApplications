@@ -8,8 +8,8 @@
     (moveAllTasks)="handleMoveList()"
     (deleteList)="handleDelList(taskList)"
     (changeListName)="handleRenameList(taskList)">
-
     </app-task-header>
+    <app-quick-task (quickTask)="handleQuickTask($event, taskList.id)"></app-quick-task>
     <app-task-item
       *ngFor="let task of taskList.tasks"
       [item]="task"

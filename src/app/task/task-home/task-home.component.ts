@@ -118,4 +118,19 @@ export class TaskHomeComponent implements OnInit {
       this.cd.markForCheck();
     });
   }
+  handleQuickTask(desc: string, listId: string) {
+    // const user$ = this.store$.select(fromRoot.getAuthUser);
+    // user$.take(1).subscribe(user => {
+    //   this.store$.dispatch(new taskActions.AddTaskAction({
+    //     desc: desc,
+    //     priority: 3,
+    //     remark: null,
+    //     ownerId: user.id,
+    //     participantIds: [],
+    //     taskListId: listId,
+    //     completed: false,
+    //     createDate: new Date()
+    //   }));
+    // })
+  }
 }

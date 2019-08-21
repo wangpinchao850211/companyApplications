@@ -1,5 +1,6 @@
 import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DirectivesModule } from '../directives/directives.module';
 // material module
 import {
@@ -28,7 +29,11 @@ import {
 } from '@angular/material';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 const materialArr = [
+  // 组件常用Module
   DirectivesModule,
+  ReactiveFormsModule,
+  FormsModule,
+  // material Module
   MatToolbarModule,
   MatSidenavModule,
   MatAutocompleteModule,
