@@ -1,5 +1,8 @@
 
-<div class="container" [@listAnim]="projects.length">
+<div class="container" 
+[@listAnim]="projects.length"
+(@listAnim.start)="onAnimationEvent($event)"
+(@listAnim.done)="onAnimationEvent($event)">
   <!-- 为了加动画，加的外层wrapper -->
   <app-project-item
     class="card"

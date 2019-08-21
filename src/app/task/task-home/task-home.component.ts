@@ -121,6 +121,8 @@ export class TaskHomeComponent implements OnInit {
     });
   }
   handleQuickTask(desc: string, listId: string) {
+    console.log(desc);
+    console.log(listId);
     // const user$ = this.store$.select(fromRoot.getAuthUser);
     // user$.take(1).subscribe(user => {
     //   this.store$.dispatch(new taskActions.AddTaskAction({

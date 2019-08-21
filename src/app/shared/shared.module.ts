@@ -28,6 +28,7 @@ import {
   MatSlideToggleModule,
 } from '@angular/material';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { ImageListSelectComponent } from './image-list-select/image-list-select.component';
 const materialArr = [
   // 组件常用Module
   DirectivesModule,
@@ -60,7 +61,8 @@ const materialArr = [
 
 @NgModule({
   declarations: [
-    ConfirmDialogComponent]
+    ConfirmDialogComponent,
+    ImageListSelectComponent]
   ,
   imports: [
     CommonModule,

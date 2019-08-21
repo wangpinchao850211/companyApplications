@@ -71,6 +71,8 @@ export class ProjectListComponent implements OnInit {
       this.projects = [...this.projects.filter(p => project.id !== p.id)];
       this.cd.markForCheck(); // 关闭弹层，让其进行检测这个位置
     });
-
+  }
+  onAnimationEvent(ev) { // 执行动画的回调
+    console.log(ev);
   }
 }

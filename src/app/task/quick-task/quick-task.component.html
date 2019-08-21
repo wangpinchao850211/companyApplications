@@ -1,3 +1,16 @@
+<!-- <form #f="ngForm">
+  <mat-form-field class="full-width" > -->
+    <!-- 1\使用ngModule必须要，在表单控件上声明name属性，相当于声明formControlName，因为form标签在angular里自动会填上ngForm这个指令到form标签上.如果让其变为原生form 可直接添加ngNoForm指令到form标签上 -->
+    <!-- <input matInput placeholder="在这里快速建立一个任务" [(ngModel)]="desc" name="desc" required/> -->
+    <!-- 2\ngModule作用如下解释：下面写法同上面相同 -->
+    <!-- <input matInput placeholder="在这里快速建立一个任务" [ngModel]="desc" (ngModuleChange)="desc=$event" name="desc" required/> -->
+    <!-- <button mat-icon-button matSuffix (click)="sendQuickTask()"><mat-icon>send</mat-icon></button>
+    <mat-error *ngIf="!f.valid">不能为空哦</mat-error>
+  </mat-form-field>
+</form>
+<p>表单数据：{{f.value | json}}</p>
+<p>表单验证状态：{{f.valid | json}}</p> -->
+
 <mat-form-field class="full-width" matTooltip="'回车或者点击右侧图标确认'">
   <input matInput placeholder="在这里快速建立一个任务" [(ngModel)]="desc"/>
   <button mat-icon-button matSuffix (click)="sendQuickTask()"><mat-icon>send</mat-icon></button>

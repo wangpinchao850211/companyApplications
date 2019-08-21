@@ -16,6 +16,12 @@
   flex-direction: column;
   flex: 0 1 auto;
 }
+// 只有加deep好使！！！
+/deep/.mat-grid-list {
+  display: block;
+  position: relative;
+  width: 50vw;
+}
 
 .text-right {
   margin: 10px;
@@ -50,8 +56,8 @@
 // list class
 mat-icon.avatar {
   overflow: hidden;
-  width: 48px;
-  height: 48px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   margin: 10px;
 }
