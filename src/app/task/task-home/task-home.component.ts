@@ -19,6 +19,7 @@ export class TaskHomeComponent implements OnInit {
     {
       id: 1,
       name: '待办',
+      order: 1,
       tasks: [
         {
           id: 1,
@@ -50,6 +51,7 @@ export class TaskHomeComponent implements OnInit {
     {
       id: 2,
       name: '进行中',
+      order: 2,
       tasks: [
         {
           id: 1,
@@ -132,5 +134,23 @@ export class TaskHomeComponent implements OnInit {
     //     createDate: new Date()
     //   }));
     // })
+  }
+  // 拖拽
+  handleMove(srcData, list) {
+    switch (srcData.tag) {
+      case 'task-item':
+        console.log('handling item');
+        break;
+      case 'task-list':
+        console.log('handling list');
+        const srcList = srcData.data;
+        // const tempOrder = srcList.order;
+        // srcList.order = list.order;
+        // list.order = tempOrder;
+        [srcList.order, list.order] = [list.order, srcList.order];
+        break;
+      default:
+        break;
+    }
   }
 }

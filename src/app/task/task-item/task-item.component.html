@@ -4,6 +4,10 @@
   'priority-normal': item.priority === 3,
   'priority-important': item.priority === 2,
   'priority-emergency': item.priority === 1}"
+  [app-draggable]="true"
+  [draggedClass]="'drag-start'"
+  [dragTag]="'task-item'"
+  [dragData]="item"
   (click)="itemClicked($event)">
   <mat-checkbox
     class="status"

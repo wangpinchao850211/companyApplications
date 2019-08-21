@@ -2,6 +2,7 @@ import { NgModule, SkipSelf, Optional } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { ServicesModule } from '../services/services.module';
 import { SharedModule } from '../shared/shared.module';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -16,6 +17,7 @@ import {loadSvgResources} from '../utils/svg.util';
   imports: [
     HttpClientModule,
     SharedModule,
+    ServicesModule.forRoot(), // 自己的services导入
   ],
   exports: [
     SharedModule,

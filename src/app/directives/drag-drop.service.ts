@@ -11,6 +11,7 @@ export interface DragData {
 export class DragDropService {
 
   constructor() { }
+  // BehaviorSubject特点总能记住上一次的值
   private _dragData = new BehaviorSubject<DragData>(null);
 
   setDragData(data: DragData) {

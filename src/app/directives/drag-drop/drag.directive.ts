@@ -2,7 +2,7 @@ import { Directive, Input, ElementRef, Renderer2, HostListener } from '@angular/
 import {DragDropService} from '../drag-drop.service';
 
 @Directive({
-  selector: '[appDrag]'
+  selector: '[app-draggable][dragTag][draggedClass][dragData]'
 })
 export class DragDirective {
 
@@ -10,10 +10,10 @@ export class DragDirective {
   @Input() dragTag: string;
   @Input() draggedClass: string;
   @Input() dragData: any;
-  @Input('app-draggable')
+  @Input('app-draggable') // get set 方法是ts有的：让上面[app-draggable]的指令是一个可输入型的
   set isDraggable(draggable: boolean) {
     this._isDraggable = draggable;
-    this.rd.setAttribute(this.el.nativeElement, 'draggable', `${draggable}`);
+    this.rd.setAttribute(this.el.nativeElement, 'draggable', `${draggable}`); // 为元素设置draggable 为true/false 是否可拖拽，html属性要求
   }
 
   get isDraggable() {
@@ -28,7 +28,7 @@ export class DragDirective {
   @HostListener('dragstart', ['$event'])
   onDragStart(ev: Event) {
     if (this.el.nativeElement === ev.target) {
-      this.rd.addClass(this.el.nativeElement, this.draggedClass);
+      this.rd.addClass(this.el.nativeElement, this.draggedClass); // 拖拽过程中应用的class
       this.service.setDragData({tag: this.dragTag, data: this.dragData});
     }
   }

@@ -3,11 +3,11 @@ import {DragDropService, DragData} from '../drag-drop.service';
 import { take } from 'rxjs/operators';
 
 @Directive({
-  selector: '[appDrop]'
+  selector: '[app-droppable][dropTags][dragEnterClass]'
 })
 export class DropDirective {
 
-  @Output() dropped: EventEmitter<DragData> = new EventEmitter();
+  @Output() dropped = new EventEmitter<DragData>();
   @Input() dropTags: string[] = [];
   @Input() dragEnterClass = '';
   private drag$;
@@ -16,7 +16,7 @@ export class DropDirective {
     private rd: Renderer2,
     private service: DragDropService
   ) {
-    this.drag$ = this.service.getDragData().pipe(take(1));
+    this.drag$ = this.service.getDragData().pipe(take(1)); //
   }
 
   @HostListener('dragenter', ['$event'])
