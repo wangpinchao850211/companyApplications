@@ -34,6 +34,7 @@ const materialArr = [
   DirectivesModule,
   ReactiveFormsModule,
   FormsModule,
+  // ImageListSelectComponent, // 导出自定义表单控件组件
   // material Module
   MatToolbarModule,
   MatSidenavModule,
@@ -70,6 +71,7 @@ const materialArr = [
   ],
   exports: [
     CommonModule,
+    ImageListSelectComponent,
     ...materialArr
   ],
   entryComponents: [

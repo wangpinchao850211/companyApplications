@@ -53,33 +53,34 @@
     </md-card>
   </form> -->
 
-  <form class="form">
+  <form class="form" [formGroup]="form" (ngSubmit)="onSubmit(form, $event)">
       <mat-card class="card full-width">
             <mat-form-field class="full-width">
-              <input matInput placeholder="电子邮件" >
+              <input matInput placeholder="电子邮件" formControlName="email">
             </mat-form-field>
             <mat-form-field class="full-width">
-              <input matInput type="text" placeholder="您的名字" >
+              <input matInput type="text" placeholder="您的名字" formControlName="name">
             </mat-form-field>
             <mat-form-field class="full-width">
-              <input matInput type="password" placeholder="您的密码" >
+              <input matInput type="password" placeholder="您的密码" formControlName="password">
             </mat-form-field>
             <mat-form-field class="full-width">
-              <input matInput type="password" placeholder="为避免失误请再次输入" >
+              <input matInput type="password" placeholder="为避免失误请再次输入" formControlName="repeat">
             </mat-form-field>
-            <!-- <app-image-list-select
+            <app-image-list-select
               [useSvgIcon]="true"
               [cols]="6"
               [title]="'选择头像：'"
-              [items]="avatars$ | async"
+              [items]="items"
               formControlName="avatar">
-            </app-image-list-select> -->
-            <mat-grid-list cols="8" rowHeight="3:1">
+            </app-image-list-select>
+            <!-- <mat-grid-list cols="8" rowHeight="3:1">
               <mat-grid-tile *ngFor="let item of items">
                 <mat-icon class="avatar" [svgIcon]="item"></mat-icon>
               </mat-grid-tile>
-            </mat-grid-list>
+            </mat-grid-list> -->
             <div class="full-width action-area">
+              <button md-raised-button type="submit" [disabled]="!form.valid">注册</button>
               <span class="fill-remaining-space"></span>
               <span class="text-right">
                 <span>已有账户？ <a routerLink="/login">登录</a></span>
