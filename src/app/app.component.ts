@@ -28,7 +28,7 @@ export class AppComponent {
     // this.oc.themeClass = dark ? 'myapp-dark-theme' : null;
     // 上面这种方法也去掉了，使用下面的
     if (this.dark) {
-      this.oc.getContainerElement().classList.add('my-dark-theme');
+      this.oc.getContainerElement().classList.add('myapp-dark-theme'); // 忘记改成自己的class了！！
     }
   }
 }

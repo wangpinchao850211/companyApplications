@@ -54,7 +54,7 @@ export class TaskHomeComponent implements OnInit {
       order: 2,
       tasks: [
         {
-          id: 1,
+          id: 3,
           desc: '任务三：项目代码审核',
           completed: false,
           priority: 1,
@@ -66,7 +66,7 @@ export class TaskHomeComponent implements OnInit {
           dueDate: new Date(),
         },
         {
-          id: 2,
+          id: 4,
           desc: '任务四：制定项目计划',
           completed: false,
           priority: 2,
@@ -137,11 +137,30 @@ export class TaskHomeComponent implements OnInit {
     //   }));
     // })
   }
+  // 除去drap来的item
+  removeDrapItem(data, targetList) {
+    //  排除目标list
+    const searchArr = this.lists.filter(i => i.id !== targetList.id);
+    // 删除唯一id的item
+    outerfor:
+    for (const it of searchArr) {
+      for (const [index, item] of it.tasks.entries()) {
+        if (item.id === data.id) {
+          it.tasks.splice(index, 1);
+          break outerfor;
+        }
+      }
+    }
+  }
   // 拖拽
   handleMove(srcData, list) {
+    // console.log(srcData);
+    // console.log(list);
     switch (srcData.tag) {
       case 'task-item':
         console.log('handling item');
+        list.tasks.push(srcData.data); // 填入拖拽到的数组，还需要告诉原list删除
+        this.removeDrapItem(srcData.data, list);
         break;
       case 'task-list':
         console.log('handling list');

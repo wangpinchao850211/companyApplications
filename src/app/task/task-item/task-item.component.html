@@ -14,7 +14,8 @@
     [checked]="item.completed"
     (click)="onCheckboxClick($event)">
   </mat-checkbox>
-  <div mat-line matTooltip="item.desc" class="content" [ngClass]="{'completed': item.completed}">
+  <!-- tooltip一直报positionChanges找不到 -->
+  <div mat-line matTooltip="{{item.desc}}" class="content" [ngClass]="{'completed': item.completed}">
     {{item.desc}}
   </div>
   <div mat-line class="bottom-bar">

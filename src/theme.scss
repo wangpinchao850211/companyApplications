@@ -64,7 +64,7 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 // export class MyAppModule {
 //   constructor(overlayContainer: OverlayContainer) {
 //     overlayContainer.themeClass = 'my-dark-theme';
-//     overlayContainer.getContainerElement().classList.add('my-dark-theme');
+//     overlayContainer.getContainerElement().classList.add('my-dark-theme'); 注意别忘了换成自己命名的class：myapp-dark-theme
 //   }
 // }
 
