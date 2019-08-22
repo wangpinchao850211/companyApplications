@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
+import { Quote } from '../../domain/quote';
 
 @Component({
   selector: 'app-login',
@@ -9,9 +12,23 @@ import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
+  quote$: Quote = {
+    id: '0',
+    cn: "满足感在于不断的努力，而不是现有成就。全心努力定会胜利满满",
+    en: "Satisfaction lies in constant effort, not in existing achievements. With all one's heart and soul, we will be full of success.",
+    pic: "/assets/img/quote_fallback.jpg"
+  };
   constructor(
+    private http: HttpClient,
+    @Inject('BASE_CONFIG') private config,
     private fb: FormBuilder
-  ) { }
+  ) {
+    const uri = `${this.config.uri}/quotes/${Math.floor(Math.random() * 10)}`;
+    this.http.get(uri).subscribe((q) => {
+      console.log(q as Quote);
+      this.quote$ = q as Quote;
+    });
+  }
 
   ngOnInit() {
     this.form = this.fb.group({

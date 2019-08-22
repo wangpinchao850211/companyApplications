@@ -2,8 +2,10 @@
   "name": "taskmgr",
   "version": "0.0.0",
   "scripts": {
+    "server": "json-server --watch mock/data.json --port 3002",
     "ng": "ng",
     "start": "ng serve --open --port 4299",
+    "wpcStar": "concurrently \"npm run server\" \"npm run start\" ",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

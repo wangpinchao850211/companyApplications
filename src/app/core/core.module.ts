@@ -24,7 +24,15 @@ import {loadSvgResources} from '../utils/svg.util';
     HeaderComponent,
     FooterComponent,
     SidebarComponent,
-  ]
+  ],
+  providers: [
+    {
+      provide: 'BASE_CONFIG',
+      useValue: {
+        uri: 'http://localhost:3002'
+      }
+    }
+  ],
 })
 export class coreModule {
   constructor (

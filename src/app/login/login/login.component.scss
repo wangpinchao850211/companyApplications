@@ -22,3 +22,6 @@
 // :host {
 //   display: flex;
 // }
+/deep/ .mat-card-content>:last-child:not(.mat-card-footer){
+   margin-top: -10px;
+}

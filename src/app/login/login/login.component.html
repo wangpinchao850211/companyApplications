@@ -27,17 +27,14 @@
     </mat-card>
     <mat-card class="card">
       <mat-card-header>
-        <mat-card-title> 每日佳句</mat-card-title>
+        <mat-card-title>每日佳句:</mat-card-title>
         <mat-card-subtitle>
-          <!-- {{(quote$ | async)?.cn}} -->
-          满足感在于不断的努力，而不是现有成就。全心努力定会胜利满满
+          {{quote$.cn}}
         </mat-card-subtitle>
       </mat-card-header>
-      <img mat-card-image src="assets/img/quote_fallback.jpg">
-      <!-- <img mat-card-image [src]="(quote$ | async)?.pic"> -->
+      <img mat-card-image [src]="quote$.pic">
       <mat-card-content>
-        <!-- <p> {{(quote$ | async)?.en}}</p> -->
-        Satisfaction lies in constant effort, not in existing achievements. With all one's heart and soul, we will be full of success.
+        <span> {{quote$.en}}</span>
       </mat-card-content>
     </mat-card>
 </form>
