@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { Quote } from '../../domain/quote';
+import { debug } from 'util';
 
 @Component({
   selector: 'app-login',
@@ -24,10 +25,11 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder
   ) {
     const uri = `${this.config.uri}/quotes/${Math.floor(Math.random() * 10)}`;
-    this.http.get(uri).subscribe((q) => {
-      console.log(q as Quote);
-      this.quote$ = q as Quote;
-    });
+    const httpflow = this.http.get(uri).debug('quote: ');
+    // httpflow.subscribe((q) => {
+    //   console.log(q as Quote);
+    //   this.quote$ = q as Quote;
+    // });
   }
 
   ngOnInit() {
@@ -55,7 +57,7 @@ export class LoginComponent implements OnInit {
     this.form.controls['email'].setValidators(this.validator);
   }
 
-  validator(c: FormControl): {[key: string]: any} { // 自定义验证器 
+  validator(c: FormControl): {[key: string]: any} { // 自定义验证器
     return null;
   }
 

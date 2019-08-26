@@ -8,7 +8,7 @@ declare module 'rxjs' {
 }
 
 Observable.prototype.debug = function(message: string) {
-  return this.do(
+  return this.tap(
     (next) => {
       if (!environment.production) {
         console.log(message, next);
