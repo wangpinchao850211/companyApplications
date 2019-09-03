@@ -4,11 +4,13 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { Quote } from '../../domain/quote';
 import { debug } from 'util';
+import { QuoteService } from '../../services/quote.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  providers: [ QuoteService ],
 })
 export class LoginComponent implements OnInit {
 
@@ -20,16 +22,11 @@ export class LoginComponent implements OnInit {
     pic: "/assets/img/quote_fallback.jpg"
   };
   constructor(
-    private http: HttpClient,
-    @Inject('BASE_CONFIG') private config,
+    private quoteService: QuoteService,
     private fb: FormBuilder
   ) {
-    const uri = `${this.config.uri}/quotes/${Math.floor(Math.random() * 10)}`;
-    const httpflow = this.http.get(uri).debug('quote: ');
-    // httpflow.subscribe((q) => {
-    //   console.log(q as Quote);
-    //   this.quote$ = q as Quote;
-    // });
+    const res = this.quoteService.getQuote();
+    console.log(res);
   }
 
   ngOnInit() {
