@@ -25,8 +25,10 @@ export class LoginComponent implements OnInit {
     private quoteService: QuoteService,
     private fb: FormBuilder
   ) {
-    const res = this.quoteService.getQuote();
-    console.log(res);
+    // ajax请求，获取每日佳句
+    this.quoteService.getQuote().subscribe(q => {
+      this.quote$ = q;
+    });
   }
 
   ngOnInit() {

@@ -29,7 +29,7 @@ import {
 } from '@angular/material';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ImageListSelectComponent } from './image-list-select/image-list-select.component';
-import '../utils/debug.util';
+
 const materialArr = [
   // 组件常用Module
   DirectivesModule,
