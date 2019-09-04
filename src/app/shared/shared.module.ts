@@ -29,6 +29,7 @@ import {
 } from '@angular/material';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ImageListSelectComponent } from './image-list-select/image-list-select.component';
+import { AgeInputComponent } from './age-input/age-input.component';
 
 const materialArr = [
   // 组件常用Module
@@ -64,7 +65,8 @@ const materialArr = [
 @NgModule({
   declarations: [
     ConfirmDialogComponent,
-    ImageListSelectComponent]
+    ImageListSelectComponent,
+    AgeInputComponent]
   ,
   imports: [
     CommonModule,
@@ -73,6 +75,7 @@ const materialArr = [
   exports: [
     CommonModule,
     ImageListSelectComponent,
+    AgeInputComponent, // 需要导出一下，方可使用
     ...materialArr
   ],
   entryComponents: [
