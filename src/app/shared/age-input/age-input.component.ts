@@ -1,33 +1,77 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import {
+  subYears,
+  subMonths,
+  subDays,
+  isBefore,
+  differenceInDays,
+  differenceInMonths,
+  differenceInYears,
+  parse,
+  format,
+  isDate,
+  isValid,
+  isFuture
+} from 'date-fns';
 import * as Rx from 'rxjs';
 import { interval, fromEvent, timer, Subject, throwError, Subscriber, Subscription, BehaviorSubject, forkJoin, of, from, Observable } from 'rxjs';
-import { map, combineLatest, merge } from 'rxjs/operators';
+import { map, combineLatest, merge, debounceTime, distinctUntilChanged, filter, startWith } from 'rxjs/operators';
+
+export enum AgeUnit {
+  Year = 0,
+  Month,
+  Day
+}
+
+export interface Age {
+  age: number;
+  unit: AgeUnit;
+}
 
 @Component({
   selector: 'app-age-input',
   templateUrl: './age-input.component.html',
   styleUrls: ['./age-input.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => AgeInputComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => AgeInputComponent),
+      multi: true,
+    }
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
   form: FormGroup;
   ageUnits = [
-    {value: '1985/02/11', label: '岁'},
-    {value: '02', label: '月'},
-    {value: '11', label: '天'}
+    {value: AgeUnit.Year, label: '岁'},
+    {value: AgeUnit.Month, label: '月'},
+    {value: AgeUnit.Day, label: '天'}
   ];
+  @Input() daysTop = 90;
+  @Input() daysBottom = 0;
+  @Input() monthsTop = 24;
+  @Input() monthsBottom = 1;
+  @Input() yearsBottom = 1;
+  @Input() yearsTop = 150;
+  @Input() debounceTime = 300;
   private propagateChange = (_: any) => {};
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.form = this.fb.group({
-      birthday: ['1985/02/11'],
+      birthday: ['1985/02/11', this.validateDate],
       age:  this.fb.group({
         ageNum: [25],
-        ageUnit: ['initAge.unit']
-      })
+        ageUnit: ['年']
+      }, {validator: this.validateAge('ageNum', 'ageUnit')})
     });
     const birthday = this.form.get('birthday');
     const ageNum = this.form.get('age').get('ageNum'); 
@@ -36,28 +80,117 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
     const birthday$ = birthday.valueChanges.pipe(
       map(d => { // 增加一个标识
         return {date: d, from: 'birthday'}
-      })
+      }),
+      debounceTime(this.debounceTime),
+      distinctUntilChanged(),
+      filter(date => birthday.valid)
     );
-    const ageNum$ = ageNum.valueChanges;
-    const ageUnit$ = ageUnit.valueChanges;
+    const ageNum$ = ageNum.valueChanges.pipe(
+      startWith(ageNum.value),
+      debounceTime(this.debounceTime),
+      distinctUntilChanged()
+    );
+    const ageUnit$ = ageUnit.valueChanges.pipe(
+      startWith(ageNum.value),
+      debounceTime(this.debounceTime),
+      distinctUntilChanged()
+    );
     const age$ = ageNum$.pipe(
       // 新版本rxjs，操作符必须用pipe，使用Rx.Observable不能直接使用操作符，可以使用interval
       combineLatest(ageUnit$, (_n, _u) => {
-        return this.toDate({age: _n, unti: _u})
+        return this.toDate({age: _n, unit: _u})
       }),
       map(d => { // 增加一个标识
         return {date: d, from: 'age'}
-      })
+      }),
+      filter(_ => this.form.get('age').valid)
     )
     // 合并上面birthday 和 age工作流
     // const merged$ = Rx.merge(birthday$, age$); 看看这种写法与正常操作符写法是否相同
-    const merged$ = birthday$.pipe(merge(age$));
+    const merged$ = birthday$.pipe(
+      merge(age$),
+      filter(_ => this.form.valid)
+    );
+    merged$.subscribe(date => {
+      const age = this.toAge(date.date);
+      if (date.from === 'birthday') {
+        if(age.age === ageNum.value && age.unit === ageUnit.value) {
+          return;
+        }
+        ageUnit.patchValue(age.unit, {emitEvent: false});
+        ageNum.patchValue(age.age, {emitEvent: false});
+        this.propagateChange(date.date);
+      } else {
+        const ageToCompare = this.toAge(this.form.get('birthday').value);
+        if(age.age !== ageToCompare.age || age.unit !== ageToCompare.unit) {
+          this.form.get('birthday').patchValue(date.date, {emitEvent: false});
+          this.propagateChange(date.date);
+        }
+      }
+    })
   }
   ngOnDestroy() {
     // if(this.subBirth) {
     //   this.subBirth.unsubscribe();
     // }
   }
+
+  isValidDate = (dateStr) => {
+    const date = parse(dateStr);
+    return isDate(date) && isValid(date) && !isFuture(date);
+  }
+  // 验证表单，验证结果正确返回 null 否则返回一个验证结果对象
+  validate(c: FormControl): {[key: string]: any} {
+    const val = c.value;
+    if (!val) {
+      return null;
+    }
+    if (this.isValidDate(val)) {
+      return null;
+    }
+    return {
+      ageInvalid: true
+    };
+  }
+
+  validateDate(c: FormControl): {[key: string]: any} {
+    const val = c.value;
+    return this.isValidDate(val) ? null : {
+      birthdayInvalid: true
+    }
+  }
+
+  validateAge(ageNumKey: string, ageUnitKey:string) {
+    return (group: FormGroup): {[key: string]: any} => {
+      const ageNum = group.controls[ageNumKey];
+      const ageUnit = group.controls[ageUnitKey];
+      let result = false;
+      const ageNumVal = ageNum.value;
+
+      switch (ageUnit.value) {
+        case AgeUnit.Year: {
+          result = ageNumVal >= this.yearsBottom && ageNumVal <= this.yearsTop
+          break;
+        }
+        case AgeUnit.Month: {
+          result = ageNumVal >= this.monthsBottom && ageNumVal <= this.monthsTop
+          break;
+        }
+        case AgeUnit.Day: {
+          result = ageNumVal >= this.daysBottom && ageNumVal <= this.daysTop
+          break;
+        }
+        default: {
+          result = false;
+          break;
+        }
+      }
+      return result ? null : {
+        ageInvalid: true
+      };
+    };
+  }
+
   // 下面这三个是自定义表单控件必写的方法，继承自ControlValueAccessor
   // 提供值的写入方法
   public writeValue(obj: Date) {
@@ -74,8 +207,41 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
   // 这里没有使用，用于注册 touched 状态
   public registerOnTouched() {
   }
+  private toAge(dateStr: string): Age {
+    const date = parse(dateStr);
+    const now = new Date();
+    if (isBefore(subDays(now, this.daysTop), date)) {
+      return {
+        age: differenceInDays(now, date),
+        unit: AgeUnit.Day
+      };
+    } else if (isBefore(subMonths(now, this.monthsTop), date)) {
+      return {
+        age: differenceInMonths(now, date),
+        unit: AgeUnit.Month
+      };
+    } else {
+      return {
+        age: differenceInYears(now, date),
+        unit: AgeUnit.Year
+      };
+    }
+  }
 
-  toDate({age, unti}) {
-
+  private toDate(age: Age): string {
+    const now = new Date();
+    const dateFormat = 'YYYY-MM-DD';
+    switch (age.unit) {
+      case AgeUnit.Year: {
+        return format(subYears(now, age.age), dateFormat);
+      }
+      case AgeUnit.Month: {
+        return format(subMonths(now, age.age), dateFormat);
+      }
+      case AgeUnit.Day: {
+        return format(subDays(now, age.age), dateFormat);
+      }
+      default: break;
+    }
   }
 }
