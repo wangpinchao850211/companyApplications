@@ -28,7 +28,15 @@ export class RegisterComponent implements OnInit {
       password: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
       repeat: ['', Validators.required],
       avatar: [img],
+      dateOfBirth: ['1990-01-01'],
     });
+  }
+  onSubmit({value, valid}, e: Event) {
+    e.preventDefault();
+    if (!valid) {
+      return;
+    }
+    console.log(value);
   }
 
 }

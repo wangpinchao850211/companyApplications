@@ -17,6 +17,7 @@ import {
 import * as Rx from 'rxjs';
 import { interval, fromEvent, timer, Subject, throwError, Subscriber, Subscription, BehaviorSubject, forkJoin, of, from, Observable } from 'rxjs';
 import { map, combineLatest, merge, debounceTime, distinctUntilChanged, filter, startWith } from 'rxjs/operators';
+import { toDate, isValidDate } from '../../utils/date.util';
 
 export enum AgeUnit {
   Year = 0,
@@ -49,12 +50,14 @@ export interface Age {
 })
 export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
+  selectedUnit = AgeUnit.Year;
   form: FormGroup;
   ageUnits = [
     {value: AgeUnit.Year, label: '岁'},
     {value: AgeUnit.Month, label: '月'},
     {value: AgeUnit.Day, label: '天'}
   ];
+  dateOfBirth;
   @Input() daysTop = 90;
   @Input() daysBottom = 0;
   @Input() monthsTop = 24;
@@ -62,15 +65,18 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
   @Input() yearsBottom = 1;
   @Input() yearsTop = 150;
   @Input() debounceTime = 300;
+  private subBirth: Subscription;
   private propagateChange = (_: any) => {};
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
+    const initDate = this.dateOfBirth ? this.dateOfBirth : toDate(subYears(Date.now(), 30));
+    const initAge = this.toAge(initDate);
     this.form = this.fb.group({
-      birthday: ['1985/02/11', this.validateDate],
+      birthday: [initDate, this.validateDate],
       age:  this.fb.group({
-        ageNum: [25],
-        ageUnit: ['年']
+        ageNum: [initAge.age],
+        ageUnit: [initAge.unit]
       }, {validator: this.validateAge('ageNum', 'ageUnit')})
     });
     const birthday = this.form.get('birthday');
@@ -111,7 +117,7 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
       merge(age$),
       filter(_ => this.form.valid)
     );
-    merged$.subscribe(date => {
+    this.subBirth = merged$.subscribe(date => {
       const age = this.toAge(date.date);
       if (date.from === 'birthday') {
         if(age.age === ageNum.value && age.unit === ageUnit.value) {
@@ -119,6 +125,7 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
         }
         ageUnit.patchValue(age.unit, {emitEvent: false});
         ageNum.patchValue(age.age, {emitEvent: false});
+        this.selectedUnit = age.unit;
         this.propagateChange(date.date);
       } else {
         const ageToCompare = this.toAge(this.form.get('birthday').value);
@@ -130,32 +137,28 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
     })
   }
   ngOnDestroy() {
-    // if(this.subBirth) {
-    //   this.subBirth.unsubscribe();
-    // }
+    if(this.subBirth) {
+      this.subBirth.unsubscribe();
+    }
   }
 
-  isValidDate = (dateStr) => {
-    const date = parse(dateStr);
-    return isDate(date) && isValid(date) && !isFuture(date);
-  }
   // 验证表单，验证结果正确返回 null 否则返回一个验证结果对象
   validate(c: FormControl): {[key: string]: any} {
     const val = c.value;
     if (!val) {
       return null;
     }
-    if (this.isValidDate(val)) {
+    if (isValidDate(val)) {
       return null;
     }
     return {
-      ageInvalid: true
+      dateOfBirthInvalid: true
     };
   }
 
   validateDate(c: FormControl): {[key: string]: any} {
     const val = c.value;
-    return this.isValidDate(val) ? null : {
+    return isValidDate(val) ? null : {
       birthdayInvalid: true
     }
   }
@@ -194,10 +197,13 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
   // 下面这三个是自定义表单控件必写的方法，继承自ControlValueAccessor
   // 提供值的写入方法
   public writeValue(obj: Date) {
-    // if (obj) {
-    //   const date = toDate(obj);
-    //   this.form.get('birthday').patchValue(date, {emitEvent: true});
-    // }
+    if (obj) {
+      const date = toDate(obj);
+      this.form.get('birthday').patchValue(date, {emitEvent: true});
+      const age = this.toAge(date);
+      this.form.get('age').get('ageNum').patchValue(age.age);
+      this.form.get('age').get('ageUnit').patchValue(age.unit);
+    }
   }
   // 当表单控件值改变时，函数 fn 会被调用
   // 这也是我们把变化 emit 回表单的机制
@@ -230,16 +236,15 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
 
   private toDate(age: Age): string {
     const now = new Date();
-    const dateFormat = 'YYYY-MM-DD';
     switch (age.unit) {
       case AgeUnit.Year: {
-        return format(subYears(now, age.age), dateFormat);
+        return toDate(subYears(now, age.age));
       }
       case AgeUnit.Month: {
-        return format(subMonths(now, age.age), dateFormat);
+        return toDate(subMonths(now, age.age));
       }
       case AgeUnit.Day: {
-        return format(subDays(now, age.age), dateFormat);
+        return toDate(subDays(now, age.age));
       }
       default: break;
     }
