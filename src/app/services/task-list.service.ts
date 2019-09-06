@@ -68,7 +68,7 @@ export class TaskListService {
       }, [])
     );
   }
-  // initializeTaskLists(prj: Project): Observable<any[]> {
+  // initializeTaskLists(prj: Project): Observable<TaskList> {
   //   const id = prj.id;
   //   return this.add({name: '待办', projectId: id, order: 1})
   //   .pipe(

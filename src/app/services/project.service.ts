@@ -21,7 +21,9 @@ export class ProjectService {
 
   // POST /projects
   add(project: Project): Observable<Project> {
+    project.id = null;
     const uri = `${this.config.uri}/${this.domain}`;
+    console.log(uri);
     return this.http.post(uri, JSON.stringify(project), {headers: this.headers}).pipe(
       map(res => {
         console.log(res);
