@@ -9,7 +9,7 @@ export interface Task {
   participantIds: string[];
   dueDate?: Date;
   priority: number;
-  // order: number;
+  order: number;
   remark?: string;
   // tags?: string[];
   reminder?: Date;

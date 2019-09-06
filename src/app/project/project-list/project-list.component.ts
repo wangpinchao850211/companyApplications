@@ -1,10 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, HostBinding } from '@angular/core';
+import { ProjectService } from '../../services';
 import { NewProjectComponent } from '../new-project/new-project.component';
 import { MatDialog, MatDialogRef, MatDialogConfig} from '@angular/material';
 import { InviteComponent } from '../invite/invite.component';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { slideToRight } from '../../anim/router.anim';
 import { listAnimation } from '../../anim/list.anim';
+import { from } from 'rxjs';
+import { Project } from 'src/app/domain';
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
@@ -15,38 +18,30 @@ import { listAnimation } from '../../anim/list.anim';
 export class ProjectListComponent implements OnInit {
 
   @HostBinding('@routeAnim') state; // 动画路由直接写这个绑定的这个组件类上，不能写在标签的指令上
-  projects = [
-    {
-      id: 0,
-      name : "企业协作平台",
-      desc : "这是一个企业内部项目",
-      coverImg: "assets/img/covers/0.jpg"
-    },
-    {
-      id: 1,
-      name : "企业协作平台",
-      desc : "这是一个企业内部项目",
-      coverImg: "assets/img/covers/1.jpg"
-    }
-  ]
+  projects: Project[];
   constructor(
+    private service: ProjectService,
     private dialog: MatDialog,
     private cd: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
+    this.service.get("2").subscribe(res => {
+      console.log(res)
+      this.projects = res;
+    });
   }
   openNewProjectDialog() {
     const dialogRef = this.dialog.open(NewProjectComponent, {data: { title: '新建项目'}});
     dialogRef.afterClosed().subscribe(val => {
       if (val) {
         console.log(val);
-        this.projects = [ ...this.projects, {
-          id: 2,
-          name : "新添加项目",
-          desc : "这是一个新的项目",
-          coverImg: "assets/img/covers/8.jpg"
-        } ];
+        // this.projects = [ ...this.projects, {
+        //   id: "2",
+        //   name : "新添加项目",
+        //   desc : "这是一个新的项目",
+        //   coverImg: "assets/img/covers/8.jpg"
+        // } ];
       }
     });
   }
