@@ -12,12 +12,14 @@ export class NewProjectComponent implements OnInit {
 
   form: FormGroup;
   dialogTitle: string;
+  coverImages: [];
   constructor(
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<NewProjectComponent>
   ) {
     console.log(this.data); // 传过来的数据
+    this.coverImages = this.data.thumbnails;
   }
 
   ngOnInit() {
@@ -43,8 +45,8 @@ export class NewProjectComponent implements OnInit {
     // if (!valid) return;
     this.dialogRef.close(value);
   }
-  close() { // 可以传递回去
-    this.dialogRef.close({name: this.data});
+  close() { // 关闭时什么也没传，回调时通过filter过滤
+    this.dialogRef.close();
   }
 
 }

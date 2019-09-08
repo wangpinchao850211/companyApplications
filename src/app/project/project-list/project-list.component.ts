@@ -7,6 +7,7 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dial
 import { slideToRight } from '../../anim/router.anim';
 import { listAnimation } from '../../anim/list.anim';
 import { from, Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { Project } from 'src/app/domain';
 @Component({
@@ -38,17 +39,15 @@ export class ProjectListComponent implements OnInit {
     const selectedImg = `/assets/img/covers/${Math.floor(Math.random() * 40)}_tn.jpg`;
     const thumbnails$ = this.getThumbnailsObs()
     const dialogRef = this.dialog.open(NewProjectComponent, {data: { thumbnails: thumbnails$, img: selectedImg}});
-    dialogRef.afterClosed().subscribe(val => {
+    dialogRef.afterClosed().pipe(
+      filter(n => !!n),
+      map(val => {coverImg: this.buildImgSrc(val.coverImg), ...val}),
+      // 增加项目(这也是一个Observable，只有订阅才能触发，但是一般不会再subscribe里再写subscribe，需要合并两个流)
+      switchMap(val => this.service.add(val))
+    ).subscribe(val => {
       if (val) {
         console.log(val);
-        this.service.add(val); // 增加项目
         this.cd.markForCheck();
-        // this.projects = [ ...this.projects, {
-        //   id: "2",
-        //   name : "新添加项目",
-        //   desc : "这是一个新的项目",
-        //   coverImg: "assets/img/covers/8.jpg"
-        // } ];
       }
     });
   }
@@ -78,12 +77,13 @@ export class ProjectListComponent implements OnInit {
     console.log(ev);
   }
 
-  private getThumbnailsObs(): Observable<string[]> {
+  getThumbnailsObs(): Observable<string[]> {
     return _.range(0, 40)
       .map(i => `/assets/img/covers/${i}_tn.jpg`);
   }
 
-  private buildImgSrc(img: string): string {
+  buildImgSrc(img: string): string {
     return img.indexOf('_') > -1 ? img.split('_', 1)[0] + '.jpg' : img;
   }
+
 }
