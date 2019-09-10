@@ -30,6 +30,7 @@ import {
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ImageListSelectComponent } from './image-list-select/image-list-select.component';
 import { AgeInputComponent } from './age-input/age-input.component';
+import { ChipsListComponent } from './chips-list/chips-list.component';
 
 const materialArr = [
   // 组件常用Module
@@ -66,7 +67,8 @@ const materialArr = [
   declarations: [
     ConfirmDialogComponent,
     ImageListSelectComponent,
-    AgeInputComponent]
+    AgeInputComponent,
+    ChipsListComponent]
   ,
   imports: [
     CommonModule,
