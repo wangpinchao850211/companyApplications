@@ -3,6 +3,8 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "types": []
   },
   "exclude": [

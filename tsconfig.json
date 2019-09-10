@@ -1,14 +1,13 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "experimentalDecorators": true,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "module": "es2015",
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es5",
     "downlevelIteration": true,

@@ -4,7 +4,7 @@ export interface User {
   name?: string;
   password?: string;
   avatar?: string;
-  // projectIds?: string[];
+  projectIds?: string[];
   taskIds?: string[];
   // address?: Address;
   // dateOfBirth?: string;
