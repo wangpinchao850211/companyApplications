@@ -38,6 +38,7 @@ const materialArr = [
   ReactiveFormsModule,
   FormsModule,
   // ImageListSelectComponent, // 导出自定义表单控件组件
+  // ChipsListComponent,
   // material Module
   MatToolbarModule,
   MatSidenavModule,
@@ -78,6 +79,7 @@ const materialArr = [
     CommonModule,
     ImageListSelectComponent,
     AgeInputComponent, // 需要导出一下，方可使用
+    ChipsListComponent,
     ...materialArr
   ],
   entryComponents: [

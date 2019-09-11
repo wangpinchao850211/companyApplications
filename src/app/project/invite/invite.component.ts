@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {User} from '../../domain';
 
-interface User {
-  id: number,
-  name: string,
-}
 @Component({
   selector: 'app-invite',
   templateUrl: './invite.component.html',
@@ -12,26 +10,23 @@ interface User {
 export class InviteComponent implements OnInit {
 
   dialogTitle: string = '邀请成员';
-  items = [
-    {
-      id: 0,
-      name: 'zhangsan'
-    },
-    {
-      id: 1,
-      name: 'lisi'
-    },
-    {
-      id: 2,
-      name: 'wangwu'
-    }
-  ]
-  constructor() { }
+  members: User[] = [];
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data,
+    private dialogRef: MatDialogRef<InviteComponent>
+  ) { }
 
   ngOnInit() {
+    this.members = [...this.data.members];
+    this.dialogTitle = this.data.dialogTitle ? this.data.dialogTitle : '邀请成员';
   }
   displayUser(user: User): string {
     return user ? user.name : '';
   }
 
+  onSubmit(ev: Event, {value, valid}) {
+    ev.preventDefault();
+    if (!valid) return;
+    this.dialogRef.close(this.members);
+  }
 }

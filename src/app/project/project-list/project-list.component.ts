@@ -81,7 +81,7 @@ export class ProjectListComponent implements OnInit {
     });
   }
   openInviteDialog(project) { // 打开邀请对话框
-    const dialogRef = this.dialog.open(InviteComponent);
+    const dialogRef = this.dialog.open(InviteComponent, {data: {members: []}});
   }
   openDeleteDialog(project) {
     const confirm = {

@@ -19,21 +19,22 @@ import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs/oper
       provide: NG_VALIDATORS,
       useExisting: forwardRef(() => ChipsListComponent),
       multi: true,
-    }
+    },
+    UserService
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChipsListComponent implements ControlValueAccessor, OnInit {
 
   @ViewChild('autoMember') autoMember;
-  @Input() multiple = true;
+  @Input() multiple = true; // 允许多个tag还是一个
   @Input() label = '添加/修改成员';
   @Input() placeholderText = '请输入成员 email';
-  items: User[];
+  items: User[] = [];
   chips: FormGroup;
   memberResults$: Observable<User[]>;
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private service: UserService
   ) { }
 
@@ -41,6 +42,7 @@ export class ChipsListComponent implements ControlValueAccessor, OnInit {
     this.chips = this.fb.group({
       memberSearch: ['']
     });
+    // this.memberResults$ = this.searchUsers(this.chips.get('memberSearch').valueChanges);
     this.memberResults$ = this.searchUsers(this.chips.controls['memberSearch'].valueChanges);
   }
     // 这里是做一个空函数体，真正使用的方法在 registerOnChange 中
@@ -54,7 +56,7 @@ export class ChipsListComponent implements ControlValueAccessor, OnInit {
       // const userEntities = obj.reduce((entities, user) => {
       //   return {...entities, [user.id]: user};
       // }, {});
-      const userEntities = obj.reduce((e, c) => ({...e, c}), {});
+      const userEntities = obj.reduce((e, c) => ({...e, c}), {}); // 把数组转成字典
       if (this.items) {
         const remaining = this.items.filter(item => !userEntities[item.id]);
         this.items = [...remaining, ...obj];
@@ -73,9 +75,7 @@ export class ChipsListComponent implements ControlValueAccessor, OnInit {
   // 验证表单，验证结果正确返回 null 否则返回一个验证结果对象
   public validate(c: FormControl): {[key:string]: any} {
     return this.items ? null : {
-      chipListInvalid: {
-        valid: false,
-      },
+      chipListInvalid: true,
     };
   }
 
