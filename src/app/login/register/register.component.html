@@ -91,9 +91,14 @@
                 </div>
             </mat-tab>
             <mat-tab label="个人信息">
-                <div class="full-width control-padding">
-                  <app-age-input formControlName="dateOfBirth"></app-age-input>
-                </div>
+                <app-indentity-input formControlName="identity" class="full-width control-padding">
+                  </app-indentity-input>
+                  <div class="full-width control-padding">
+                    <app-age-input formControlName="dateOfBirth"></app-age-input>
+                  </div>
+                  <div class="full-width control-padding">
+                    <app-area-list formControlName="address"></app-area-list>
+                  </div>
             </mat-tab>
           </mat-tab-group>    
       </mat-card>

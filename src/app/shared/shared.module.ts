@@ -84,6 +84,8 @@ const materialArr = [
     ImageListSelectComponent,
     AgeInputComponent, // 需要导出一下，方可使用
     ChipsListComponent,
+    IndentityInputComponent,
+    AreaListComponent,
     ...materialArr
   ],
   entryComponents: [

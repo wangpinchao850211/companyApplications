@@ -38,13 +38,15 @@ export class AreaListComponent implements ControlValueAccessor, OnInit, OnDestro
 
   cities$: Observable<string[]>;
   districts$: Observable<string[]>;
-  provinces$ = of(getProvinces());
+  provinces$ = getProvinces();
 
   private _sub: Subscription;
   private propagateChange = (_: any) => {};
   constructor() { }
 
   ngOnInit() {
+    console.log(this.provinces$);
+    
     const province$ = this._province.asObservable().pipe(startWith(''));
     const city$ = this._city.asObservable().pipe(startWith(''));
     const district$ = this._district.asObservable().pipe(startWith(''));
@@ -65,7 +67,10 @@ export class AreaListComponent implements ControlValueAccessor, OnInit, OnDestro
 
     // 根据省份的选择得到城市列表
     this.cities$ = province$.pipe(
-      mergeMap(province => of(getCitiesByProvince(province)))
+      mergeMap(province => {
+        // console.log(province);
+        return of(getCitiesByProvince(province))
+      })
     );
     // 根据省份和城市的选择得到地区列表
     this.districts$ = province$.pipe(
