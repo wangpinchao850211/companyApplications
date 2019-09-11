@@ -6,9 +6,9 @@ export interface User {
   avatar?: string;
   projectIds?: string[];
   taskIds?: string[];
-  // address?: Address;
-  // dateOfBirth?: string;
-  // identity?: Identity;
+  address?: Address;
+  dateOfBirth?: string;
+  identity?: Identity;
 }
 
 export enum IdentityType {
