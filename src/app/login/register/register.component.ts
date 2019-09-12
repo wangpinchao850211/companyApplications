@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { map, combineLatest, merge, debounceTime, distinctUntilChanged, filter, startWith } from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {extractInfo, getAddrByCode, isValidAddr} from '../../utils/identity.util';
+import {isValidDate, toDate} from '../../utils/date.util';
 
 @Component({
   selector: 'app-register',
@@ -10,6 +14,7 @@ export class RegisterComponent implements OnInit {
 
   items: string[];
   form: FormGroup;
+  private _sub: Subscription;
   private readonly avatarName = 'avatars';
   constructor(
     private fb: FormBuilder
@@ -31,6 +36,25 @@ export class RegisterComponent implements OnInit {
       dateOfBirth: ['1990-01-01'],
       address: ['', Validators.maxLength(80)],
       identity: []
+    });
+    // 将身份证信息转换成时间日期
+    const id$ = this.form.get('identity').valueChanges.pipe(
+      debounceTime(300),
+      filter(_ => this.form.get('identity').valid)
+    );
+
+    this._sub = id$.subscribe(id => {
+      const info = extractInfo(id.identityNo);
+      if (isValidAddr(info.addrCode)) {
+        const addr = getAddrByCode(info.addrCode);
+        this.form.patchValue({address: addr});
+        this.form.updateValueAndValidity({onlySelf: true, emitEvent: true});
+      }
+      if (isValidDate(info.dateOfBirth)) {
+        const date = info.dateOfBirth;
+        this.form.patchValue({dateOfBirth: date});
+        this.form.updateValueAndValidity({onlySelf: true, emitEvent: true});
+      }
     });
   }
   onSubmit({value, valid}, e: Event) {
