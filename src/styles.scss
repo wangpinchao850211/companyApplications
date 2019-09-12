@@ -2,6 +2,7 @@
 // @import "~@angular/material/prebuilt-themes/indigo-pink.css"; // 引入material主题
 @import "../node_modules/material-design-icons/iconfont/material-icons.css";
 @import "./theme.scss"; // 引入自定义主题
+@import '~src/base.scss'; // 引入滚动条mixin
 
 html, body, app-root, mat-sidenav-container, .site{
   width: 100%;
@@ -33,4 +34,10 @@ main {
 }
 .full-width{
   width: 100%;
+  overflow-x: hidden;
+  @include mixin-min-scroll;
+}
+
+.card{
+  @include mixin-min-scroll;
 }

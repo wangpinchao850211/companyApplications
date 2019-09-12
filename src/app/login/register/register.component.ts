@@ -45,14 +45,17 @@ export class RegisterComponent implements OnInit {
 
     this._sub = id$.subscribe(id => {
       const info = extractInfo(id.identityNo);
-      if (isValidAddr(info.addrCode)) {
-        const addr = getAddrByCode(info.addrCode);
+      if (isValidAddr(info.addrCode)) { // 更新地址
+        const addr = getAddrByCode(info.addrCode); // 前六位转成地址
         this.form.patchValue({address: addr});
+        // onlySelf只影响当前组件，不影响父组件
+        // emitEvent：如果为 true 或未提供（默认），则当控件值发生变化时，statusChanges 和 valueChanges 这两个 Observable 分别会以最近的状态和值发出事件。 如果为 false 则不发出事件。 该配置项会被传给 updateValueAndValidity 方法。
         this.form.updateValueAndValidity({onlySelf: true, emitEvent: true});
       }
-      if (isValidDate(info.dateOfBirth)) {
+      if (isValidDate(info.dateOfBirth)) { // 更新年龄，出生日期
         const date = info.dateOfBirth;
         this.form.patchValue({dateOfBirth: date});
+        // updateValueAndValidity重新计算控件的值和校验状态。
         this.form.updateValueAndValidity({onlySelf: true, emitEvent: true});
       }
     });

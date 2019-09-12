@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, forwardRef, OnDestroy } from '@angular/core';
 import { NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor, FormControl } from '@angular/forms';
-import { Subject, Observable, Subscription } from 'rxjs';
+import { Subject, Observable, Subscription, merge } from 'rxjs';
 import { combineLatest } from 'rxjs/operators';
 import {Identity, IdentityType} from '../../domain';
 import {isValidAddr, extractInfo} from '../../utils/identity.util';
@@ -41,7 +41,7 @@ export class IndentityInputComponent implements ControlValueAccessor, OnInit, On
 
   private propagateChange = (_: any) => {};
   ngOnInit() {
-    const valu$ = this._idNo.pipe(
+    const valu$ = this.idNo.pipe(
       combineLatest(this.idType, (_no, _type) => {
         return {
           identityType: _type,

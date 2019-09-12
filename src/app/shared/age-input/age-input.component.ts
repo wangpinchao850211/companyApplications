@@ -70,8 +70,11 @@ export class AgeInputComponent implements ControlValueAccessor, OnInit, OnDestro
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
+    // console.log(this.dateOfBirth);
     const initDate = this.dateOfBirth ? this.dateOfBirth : toDate(subYears(Date.now(), 30));
+    // console.log(initDate);
     const initAge = this.toAge(initDate);
+    // console.log(initAge);
     this.form = this.fb.group({
       birthday: [initDate, this.validateDate],
       age:  this.fb.group({
