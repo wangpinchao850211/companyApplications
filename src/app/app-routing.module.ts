@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
+  {path: '', redirectTo: '/ngrx', pathMatch: 'full'},
   // { 有问题
   //   path: 'project',
   //   loadChildren: './project/project.module#ProjectModule',
