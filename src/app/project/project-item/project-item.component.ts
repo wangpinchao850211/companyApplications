@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, Input, Output, EventEmitter, HostBinding, HostListener } from '@angular/core';
 import {cardAnim} from '../../anim/card.anim';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-project-item',
   templateUrl: './project-item.component.html',
@@ -23,7 +24,7 @@ export class ProjectItemComponent implements OnInit {
   onMouseLeave(target) {
     this.cardState = 'out';
   }
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     console.log(this.item);
@@ -40,6 +41,12 @@ export class ProjectItemComponent implements OnInit {
   openDeleteDialog(ev: Event) {
     ev.preventDefault();
     this.launchDeleteDailog.emit();
+  }
+
+  // 跳入task
+  onClick(ev: Event) {
+    console.log(ev); // 使用ngrx考虑传入相应项目task
+    this.router.navigate(['tasklists']);
   }
 
 }

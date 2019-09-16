@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { Quote } from '../../domain/quote';
 import { debug } from 'util';
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
     pic: "/assets/img/quote_fallback.jpg"
   };
   constructor(
+    private router: Router,
     private quoteService: QuoteService,
     private fb: FormBuilder
   ) {
@@ -54,6 +56,8 @@ export class LoginComponent implements OnInit {
 
     // 自定义验证器也可以不在上面初始化时声明，可以在submit时动态设置使用,如下:
     this.form.controls['email'].setValidators(this.validator);
+    this.router.navigate(['project']);
+    
   }
 
   validator(c: FormControl): {[key: string]: any} { // 自定义验证器

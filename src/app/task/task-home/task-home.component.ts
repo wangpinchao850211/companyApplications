@@ -5,6 +5,7 @@ import { NewTaskListComponent } from '../new-task-list/new-task-list.component';
 import { CopyTaskComponent } from '../copy-task/copy-task.component';
 import {ConfirmDialogComponent} from '../../shared/confirm-dialog/confirm-dialog.component';
 import { slideToRight } from '../../anim/router.anim';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-task-home',
   templateUrl: './task-home.component.html',
@@ -81,6 +82,7 @@ export class TaskHomeComponent implements OnInit {
     }
   ]
   constructor(
+    private router: Router,
     private dialog: MatDialog,
     private cd: ChangeDetectorRef, // 可以手动检测变更位置
   ) { }
@@ -173,5 +175,9 @@ export class TaskHomeComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  goback() {
+    this.router.navigate(['project']);
   }
 }
