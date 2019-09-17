@@ -7,5 +7,11 @@
     <span>开发平台</span>
     <span class="fill-remaining-space"></span>
     <button *ngIf="showLogout" mat-raised-button color="warn" type="button" (click)="Logout()" style="margin-right:10px;">登出</button>
-    <mat-slide-toggle (change)="onChange($event.checked)">黑夜模式</mat-slide-toggle>
+    <mat-slide-toggle (change)="onChange($event.checked)">
+      <!-- 试用一下ngIf else ng-template-->
+      <span *ngIf="showModeSwitch else whiteMode">白天模式</span>
+      <ng-template #whiteMode>
+          <span>黑夜模式</span>
+      </ng-template>
+    </mat-slide-toggle>
 </mat-toolbar>
