@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-new-task',
   templateUrl: './new-task.component.html',
@@ -32,8 +32,19 @@ export class NewTaskComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.data);
     this.dialogTitle = this.data.title;
     console.log(JSON.stringify(this.data.title));
+    
+    this.form = this.fb.group({
+      desc: ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
+      priority: [3],
+      dueDate: [],
+      reminder: [],
+      owner: [[this.data.owner]],
+      followers: [[]],
+      remark: ['',  Validators.maxLength(40)]
+    });
     // if (!this.data.task) {
     //   this.form = this.fb.group({
     //     desc: ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
@@ -45,7 +56,7 @@ export class NewTaskComponent implements OnInit {
     //     remark: ['',  Validators.maxLength(40)]
     //   });
     //   this.dialogTitle = '创建任务：';
-    //   this.delInvisible = true;
+    //   // this.delInvisible = true;
     // } else {
     //   this.form = this.fb.group({
     //     desc: [this.data.task.desc, Validators.compose([Validators.required, Validators.maxLength(20)])],
@@ -57,7 +68,7 @@ export class NewTaskComponent implements OnInit {
     //     remark: [this.data.task.remark, Validators.maxLength(40)]
     //   });
     //   this.dialogTitle = '修改任务：';
-    //   this.delInvisible = false;
+    //   // this.delInvisible = false;
     // }
   }
 
