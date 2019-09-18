@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="form" (ngSubmit)="onSubmit(form, $event)">
   <h2 mat-dialog-title>{{dialogTitle}}</h2>
   <div mat-dialog-content>
     <mat-form-field class="full-width">
@@ -9,6 +9,9 @@
         {{priorityItem.label}}
       </mat-radio-button>
     </mat-radio-group>
+    <div class="full-width">
+      <app-chips-list [label]="'更改执行者'" [multiple]="false" formControlName="owner"></app-chips-list>
+    </div>
     <mat-form-field class="full-width">
       <input matInput [matDatepicker]="dueDatePicker" placeholder="选择截止日期">
       <mat-datepicker-toggle matSuffix [for]="dueDatePicker" type="button"></mat-datepicker-toggle>
@@ -19,6 +22,9 @@
       <mat-datepicker-toggle matSuffix [for]="reminderPicker" type="button"></mat-datepicker-toggle>
     </mat-form-field>
     <mat-datepicker touchUi="true" #reminderPicker></mat-datepicker>
+    <div class="full-width">
+      <app-chips-list [label]="'更改参与者'" formControlName="followers"></app-chips-list>
+    </div>
     <mat-form-field class="full-width">
       <textarea matInput placeholder="备注"></textarea>
     </mat-form-field>
