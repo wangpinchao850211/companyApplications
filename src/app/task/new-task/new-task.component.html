@@ -10,7 +10,7 @@
       </mat-radio-button>
     </mat-radio-group>
     <div class="full-width">
-      <app-chips-list [label]="'更改执行者'" [multiple]="false" formControlName="owner"></app-chips-list>
+      <app-chips-list [label]="'更改执行者'" [multiple]="false" formControlName="owner" name="members" [(ngModel)]="members"></app-chips-list>
     </div>
     <mat-form-field class="full-width">
       <input matInput [matDatepicker]="dueDatePicker" placeholder="选择截止日期">

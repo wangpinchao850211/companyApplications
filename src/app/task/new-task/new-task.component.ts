@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { User } from 'src/app/domain';
 @Component({
   selector: 'app-new-task',
   templateUrl: './new-task.component.html',
@@ -9,6 +10,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class NewTaskComponent implements OnInit {
 
+  members: User[] = [];
   form: FormGroup;
   dialogTitle: string;
   priorities: { label: string; value: number }[] = [
@@ -34,6 +36,7 @@ export class NewTaskComponent implements OnInit {
   ngOnInit() {
     console.log(this.data);
     this.dialogTitle = this.data.title;
+    this.members = [...this.data.members];
     console.log(JSON.stringify(this.data.title));
     
     this.form = this.fb.group({
@@ -86,6 +89,7 @@ export class NewTaskComponent implements OnInit {
     //   priority: value.priority,
     //   remark: value.remark
     // }});
+    this.dialogRef.close(this.members);
   }
 
 }
