@@ -5,6 +5,8 @@ import { StoreModule } from '@ngrx/store';
 import { counterReducer } from './ngrx/reducer/counter.reducer';
 import { switchReducer } from './ngrx/reducer/modeSwitch.reducer';
 
+import { reducers, initState } from './reducers'
+
 import { NgModule } from '@angular/core';
 import { coreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -23,7 +25,7 @@ import { from } from 'rxjs';
   ],
   imports: [
     BrowserModule,
-    StoreModule.forRoot({ count: counterReducer, switchMode: switchReducer }), // 注册全局store
+    StoreModule.forRoot(reducers, {initialState: initState}), // 注册全局store
     AppRoutingModule,
     coreModule, // 引入全局依赖
     SharedModule,
