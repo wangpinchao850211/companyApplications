@@ -18,6 +18,10 @@ import { NgrxModule } from './ngrx/ngrx.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { from } from 'rxjs';
+import { EffectsModule } from '@ngrx/effects';
+import { QuoteEffects } from './effects/quote.effects'; // 直接导入了每个effect
+
+import { AppEffects } from './app.effects'; // 这个没合并成effect
 
 @NgModule({
   declarations: [
@@ -34,6 +38,7 @@ import { from } from 'rxjs';
     TaskModule,
     NgrxModule,
     BrowserAnimationsModule,// 引入动画,放入最后，避免出现异常
+    EffectsModule.forRoot([QuoteEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]

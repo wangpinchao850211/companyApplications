@@ -1,11 +1,14 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { Quote } from '../../domain/quote';
+import * as fromRoot from '../../reducers';
 import { debug } from 'util';
 import { QuoteService } from '../../services/quote.service';
+import { Store, select } from '@ngrx/store';
+import * as actions from '../../actions/quote.action';
 
 @Component({
   selector: 'app-login',
@@ -16,21 +19,19 @@ import { QuoteService } from '../../services/quote.service';
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
-  quote$: Quote = {
-    id: '0',
-    cn: "满足感在于不断的努力，而不是现有成就。全心努力定会胜利满满",
-    en: "Satisfaction lies in constant effort, not in existing achievements. With all one's heart and soul, we will be full of success.",
-    pic: "/assets/img/quote_fallback.jpg"
-  };
+  public quote = {};
   constructor(
+    private store$: Store<fromRoot.State>,
     private router: Router,
     private quoteService: QuoteService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cd: ChangeDetectorRef, // 变更检测
   ) {
-    // ajax请求，获取每日佳句
-    this.quoteService.getQuote().subscribe(q => {
-      this.quote$ = q;
+    this.store$.pipe(select('quote')).subscribe(data => {
+      this.quote = { ...data.quote };
     });
+    // 触发获取quote的action，使用effect进行action分流！(ajax请求，获取每日佳句，在effect种)
+      this.store$.dispatch({type: actions.ActionTypes.QUOTE});
   }
 
   ngOnInit() {
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit {
       email: ['fan@163.com', Validators.compose([Validators.required, Validators.email])],
       password: ['wpc123456', Validators.required]
     });
+    
   }
   // 使用解构赋值获取到form的value和valid
   onSubmit({value, valid}, e: Event) {
