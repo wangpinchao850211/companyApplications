@@ -99,7 +99,15 @@
                   <div class="full-width control-padding">
                     <app-area-list formControlName="address"></app-area-list>
                   </div>
+                  <div class="full-width action-area">
+                    <button md-raised-button type="submit">注册</button>
+                    <span class="fill-remaining-space"></span>
+                    <span class="text-right">
+                      <span>已有账户？ <a routerLink="/login">登录</a></span>
+                      <span>忘记 <a routerLink="/forgot">密码？</a></span>
+                    </span>
+                  </div>
             </mat-tab>
-          </mat-tab-group>    
+          </mat-tab-group>
       </mat-card>
     </form>

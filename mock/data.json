@@ -42,6 +42,44 @@
       "roleIds": [
         1
       ]
+    },
+    {
+      "name": "fan@163.com",
+      "email": "",
+      "password": "wpc123456",
+      "repeat": "",
+      "avatar": "avatars:svg-7",
+      "dateOfBirth": "19850211",
+      "address": {
+        "province": "黑龙江省",
+        "city": "鸡西市",
+        "district": "鸡冠区",
+        "street": ""
+      },
+      "identity": {
+        "identityType": 0,
+        "identityNo": "230302198502115616"
+      },
+      "id": "kWP2pJ0"
+    },
+    {
+      "name": "王品朝",
+      "email": "wpc@163.com",
+      "password": "wqhlv570805",
+      "repeat": "wqhlv570805",
+      "avatar": "avatars:svg-10",
+      "dateOfBirth": "19850211",
+      "address": {
+        "province": "黑龙江省",
+        "city": "鸡西市",
+        "district": "鸡冠区",
+        "street": ""
+      },
+      "identity": {
+        "identityType": 0,
+        "identityNo": "230302198502115616"
+      },
+      "id": "Xr3Zblb"
     }
   ],
   "projects": [

@@ -1,23 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { map, combineLatest, merge, debounceTime, distinctUntilChanged, filter, startWith } from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {extractInfo, getAddrByCode, isValidAddr} from '../../utils/identity.util';
 import {isValidDate, toDate} from '../../utils/date.util';
+import { AuthService } from '../../services/auth.service';
+import {Auth} from '../../domain';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
+  providers: [AuthService]
 })
 export class RegisterComponent implements OnInit {
 
+  auth: Observable<Auth>;
   items: string[];
   form: FormGroup;
   private _sub: Subscription;
   private readonly avatarName = 'avatars';
   constructor(
-    private fb: FormBuilder
+    private router: Router,
+    private fb: FormBuilder,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -62,10 +69,28 @@ export class RegisterComponent implements OnInit {
   }
   onSubmit({value, valid}, e: Event) {
     e.preventDefault();
+    console.log(this.form.errors); // 验证不过
     if (!valid) {
       return;
     }
     console.log(value);
+    this.auth = this.authService.register(value);
+    this.auth.subscribe((data) => {
+      console.log(data);
+      if (data.token) { // 注册成功
+        this.router.navigate(['login']);
+      }
+    })
+    // this.store$.dispatch(
+    //   new actions.RegisterAction({
+    //     password: value.password,
+    //     name: value.name,
+    //     email: value.email,
+    //     avatar: value.avatar,
+    //     identity: value.identity,
+    //     address: value.address,
+    //     dateOfBirth: value.dateOfBirth
+    //   }));
   }
 
 }
