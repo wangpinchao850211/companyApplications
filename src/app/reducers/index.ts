@@ -16,6 +16,8 @@ import { environment } from '../../environments/environment';
  * 分别从每个 reducer 中将需要导出的函数或对象进行导出，并起个易懂的名字
  */
 import * as fromQuote from './quote.reducer';
+import * as fromAuth from './auth.reducer';
+import {Auth} from '../domain';
 
 /**
  * 正如我们的 reducer 像数据库中的表一样，我们的顶层 state 也包含各个子 reducer 的 state
@@ -23,12 +25,15 @@ import * as fromQuote from './quote.reducer';
  */
 export interface State {
     quote: fromQuote.State;
+    auth: Auth;
 }
 export const initState = {
     quote: fromQuote.initialState,
+    auth: fromAuth.initialState,
 };
 export const reducers: ActionReducerMap<State> = {
     quote: fromQuote.reducer,
+    auth: fromAuth.reducer,
 };
 /**
  * 使用 combineReducers 把所有子 reducer 合并产生一个顶级 reducer

@@ -9,6 +9,7 @@ import { debug } from 'util';
 import { QuoteService } from '../../services/quote.service';
 import { Store, select } from '@ngrx/store';
 import * as actions from '../../actions/quote.action';
+import * as authActions from '../../actions/auth.action';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +29,7 @@ export class LoginComponent implements OnInit {
     private cd: ChangeDetectorRef, // 变更检测
   ) {
     this.store$.pipe(select('quote')).subscribe(data => {
+      console.log(data);
       this.quote = { ...data.quote };
     });
     // 触发获取quote的action，使用effect进行action分流！(ajax请求，获取每日佳句，在effect种)
@@ -40,7 +42,7 @@ export class LoginComponent implements OnInit {
       email: ['fan@163.com', Validators.compose([Validators.required, Validators.email])],
       password: ['wpc123456', Validators.required]
     });
-    
+
   }
   // 使用解构赋值获取到form的value和valid
   onSubmit({value, valid}, e: Event) {
@@ -50,16 +52,22 @@ export class LoginComponent implements OnInit {
     if (!valid) {
       return;
     }
-    // this.store$.dispatch(
-    //   new authActions.LoginAction({
-    //     email: value.email,
-    //     password: value.password
-    //   }));
+    // 登陆获取权限
+    this.store$.dispatch(
+      {
+        type: authActions.ActionTypes.LOGIN_SUCCESS,
+        payload: {
+          val: {
+            email: value.email,
+            password: value.password
+          }
+        }
+      });
 
     // 自定义验证器也可以不在上面初始化时声明，可以在submit时动态设置使用,如下:
     this.form.controls['email'].setValidators(this.validator);
     this.router.navigate(['project']);
-    
+
   }
 
   validator(c: FormControl): {[key: string]: any} { // 自定义验证器

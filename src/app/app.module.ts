@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { counterReducer } from './ngrx/reducer/counter.reducer';
 import { switchReducer } from './ngrx/reducer/modeSwitch.reducer';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 
 import { reducers, initState } from './reducers'
 
@@ -29,7 +30,13 @@ import { AppEffects } from './app.effects'; // 这个没合并成effect
   ],
   imports: [
     BrowserModule,
-    StoreModule.forRoot(reducers, {initialState: initState}), // 注册全局store
+    StoreModule.forRoot(reducers, {
+      initialState: initState,
+    }), // 注册全局store
+    // 路由引入有问题
+    // StoreModule.forRoot({
+    //   router: routerReducer,
+    // }),
     AppRoutingModule,
     coreModule, // 引入全局依赖
     SharedModule,
@@ -39,6 +46,7 @@ import { AppEffects } from './app.effects'; // 这个没合并成effect
     NgrxModule,
     BrowserAnimationsModule,// 引入动画,放入最后，避免出现异常
     EffectsModule.forRoot([QuoteEffects]),
+    // StoreRouterConnectingModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
