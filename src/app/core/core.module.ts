@@ -40,7 +40,7 @@ export class coreModule {
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer
   ) {
-    // @SkipSelf()告知去父级去寻找是否有此类已经加载
+    // @SkipSelf()告知去父级去寻找是否有此类已经加载（在注入器树中层次高于我的祖先注入器中查找）
     // @Optional()首次加载时，一定没有这个类，optional指定为可选参数
     if (parent) {
       throw new Error('模块已经存在，不能再次加载!');
